@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    env_file:
+      - ./.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./.env
+    volumes:
+      - ./secrets:/secrets:ro
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+  dashboard:
+    build: ./dashboard
+    env_file:
+      - ./.env
+    depends_on:
+      - backend
+    ports:
+      - "8501:8501"
+
+volumes:
+  db_data:
