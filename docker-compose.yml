@@ -24,6 +24,8 @@ services:
     build: ./dashboard
     env_file:
       - ./.env
+    environment:
+      BACKEND_URL: http://backend:8000
     depends_on:
       - backend
     ports:
